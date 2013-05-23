@@ -34,17 +34,36 @@ function getCurrentFrequency() {
     }
 
     var max = 0;
+    var avg = 0;
     for (var j = 0; j < m; j++) {
+        var v = accumulator[j];
+        avg += v;
         if (accumulator[j] > accumulator[max]) {
             max = j;
         }
         plotData.push([j, accumulator[j]]);        
     }
-    
+    avg /= m;
+
+
+    if (accumulator[max] - avg > 50) {
+        if (max > 15) {
+            console.log("HIGH");
+        $('#spaceship').stop();
+            $('#spaceship').animate({'margin-left': 800});
+        } else {
+            console.log("LOW");
+        $('#spaceship').stop();
+            $('#spaceship').animate({'margin-left': 0});
+        }
+    } else {
+        console.log("NO");
+        $('#spaceship').stop();
+    }
 
     if (accumulator[max] > 15) {
-        $('#spaceship').stop();
-        $('#spaceship').animate({'margin-left': max*20});
+
+
     }
     
     var options = {
